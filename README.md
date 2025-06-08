@@ -5,7 +5,7 @@ The mvp_pz project is a minimal viable online store offering basic e-commerce fa
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Thank you for considering contributing to the project. Please send an email to Mathew Daniel via [mathew.m.daniel@gmail.com](mailto:mathew.m.daniel@gmail.com) indicating your interest, and I will be sure to respond within 24 hours.
 
 ## Security Vulnerabilities
 
