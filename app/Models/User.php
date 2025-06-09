@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'profile_image_url',
+        'profile_image_thumbnail_url',
+        'role',
     ];
 
     /**
@@ -43,6 +47,15 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'profile_image_url' => 'string',
+            'profile_image_thumbnail_url' => 'string',
+            'role' => 'string',
         ];
+    }
+
+    protected function isAdmin(): bool
+    {
+        return $this->role === 'admin' || 
     }
 }

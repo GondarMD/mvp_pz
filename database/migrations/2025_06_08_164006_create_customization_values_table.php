@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('customization_values', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customization_option_id')->constrained()->onDelete('cascade');
+            $table->string('label')->default(''); // e.g., 'Large', 'Red'
+            $table->string('value');
             $table->timestamps();
         });
     }
