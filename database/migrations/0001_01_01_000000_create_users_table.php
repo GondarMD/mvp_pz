@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->boolean('is_admin')->default(false);
-            $table->string('role')->default('user'); // Added role column with default value 'user'
             $table->string('profile_image_url')->nullable(); // Added profile image URL column
             $table->string('profile_image_thumbnail_url')->nullable(); // Added profile image thumbnail URL column
             $table->timestamps();
