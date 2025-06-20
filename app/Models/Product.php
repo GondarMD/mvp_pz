@@ -12,6 +12,7 @@ class Product extends Model
         'description',
         'price',
         'is_digital',
+        'is_active',
         'category_id',
         'sub_category_id',
         'base_image_url',

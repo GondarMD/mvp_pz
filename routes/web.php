@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Web\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,12 +31,14 @@ Route::get('/dashboard', function () {
     ]);
 })->name('dashboard');
 
-// Route::middleware(['auth', 'role:admin'])->group(function () {
-//     // Admin routes can be defined here
-//     Route::get('/dashboard', function () {
-//         return Inertia::render('Dashboard/Admin');
-//     })->name('admin.dashboard');
-// });
+
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Admin routes can be defined here
+    Route::get('/products/create', function () {
+        return Inertia::render('Product/CreateProduct');
+    })->name('products.create');
+});
 
 // Route::middleware(['auth', 'role:authenticated'])->group(function () {
 //     // Authenticated user routes can be defined here
