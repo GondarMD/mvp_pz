@@ -4,27 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\ProductVariantOptionValue;
+
 class ProductVariantOption extends Model
 {
     protected $fillable = [
         'product_variant_id',
         'attribute_key', // e.g., 'size', 'color'
-        'attribute_value', // e.g., 'M', 'Red'
+        'label', // e.g., 'Size', 'Color' - used in UI for display
     ];
 
     public function productVariant()
     {
         return $this->belongsTo(ProductVariant::class);
     }
-    
-    public function getAttributeKey($value)
-    {
-        return ucfirst($value); // Capitalize the first letter of the attribute key
-    }
 
-    public function getAttributeValue($value)
+    public function optionValues()
     {
-        return ucfirst($value); // Capitalize the first letter of the attribute value
+        return $this->hasMany(ProductVariantOptionValue::class);
     }
-
 }
