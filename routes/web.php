@@ -35,6 +35,22 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     // Admin routes can be defined here
+
+    // Categories
+    Route::get('/admin/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index'])
+        ->name('admin.categories.index');
+    Route::post('/admin/categories', [App\Http\Controllers\Admin\CategoryController::class, 'store'])
+        ->name('admin.categories.store');
+    Route::post('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])
+        ->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+    // Sub-categories
+
+
+    
+    
+    // Products
     Route::get('/products/create', function () {
         return Inertia::render('Product/CreateProduct');
     })->name('products.create');
@@ -54,4 +70,4 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 //     })->name('guest.dashboard');
 // });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

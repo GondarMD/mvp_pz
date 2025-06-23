@@ -20,8 +20,20 @@ class ProductController extends Controller
         if ($request->wantsJson()) {
             return $products;
         }
-        return Inertia::render('Products/Index', [
+        return Inertia::render('Product/ProductListView', [
             'products' => $products
+        ]);
+    }
+
+    public function getProductDetails(Request $request, int $productId)
+    {
+        $product = Product::findOrFail($productId)
+            ->load(['category', 'variants.options', 'variants.options.values']);
+        if ($request->wantsJson()) {
+            return $product;
+        }
+        return Inertia::render('Products/Details', [
+            'product' => $product
         ]);
     }
 

@@ -10,7 +10,7 @@ class ProductVariantOption extends Model
 {
     protected $fillable = [
         'product_variant_id',
-        'attribute_key', // e.g., 'size', 'color'
+        'attribute', // e.g., 'size', 'color'
         'label', // e.g., 'Size', 'Color' - used in UI for display
     ];
 

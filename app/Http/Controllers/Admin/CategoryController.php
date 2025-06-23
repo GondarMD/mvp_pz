@@ -15,7 +15,7 @@ class CategoryController extends Controller
         if ($request->wantsJson()) {
             return $categories;
         }
-        return Inertia::render('Admin/Categories/Index', [
+        return Inertia::render('Admin/CategoryManagement', [
             'categories' => $categories
         ]);
     }
@@ -26,6 +26,15 @@ class CategoryController extends Controller
         return $request->wantsJson()
             ? $category
             : redirect()->back()->with('success', 'Category created');
+    }
+
+    public function edit(Request $request, Category $category) {
+        if ($request->wantsJson()) {
+            return $category;
+        }
+        return Inertia::render('Admin/Categories/EditCategory', [
+            'category' => $category
+        ]);
     }
 
     public function update(Request $request, Category $category) {
