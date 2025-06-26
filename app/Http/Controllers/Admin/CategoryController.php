@@ -11,7 +11,8 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     public function index(Request $request) {
-        $categories = Category::all();
+        $categories = Category::all()->load('subcategories');
+
         if ($request->wantsJson()) {
             return $categories;
         }

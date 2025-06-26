@@ -46,10 +46,16 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
     // Sub-categories
+Route::get('/admin/subcategories', [App\Http\Controllers\Admin\SubCategoryController::class, 'index'])
+        ->name('admin.subcategories.index');
+    Route::post('/admin/subcategories', [App\Http\Controllers\Admin\SubCategoryController::class, 'store'])
+        ->name('admin.subcategories.store');
+    Route::post('/admin/subcategories/{subcategory}', [App\Http\Controllers\Admin\SubCategoryController::class, 'update'])
+        ->name('admin.subcategories.update');
+    Route::delete('/admin/subcategories/{subcategory}', [App\Http\Controllers\Admin\SubCategoryController::class, 'destroy'])
+        ->name('admin.subcategories.destroy');
 
-
-    
-    
+        
     // Products
     Route::get('/products/create', function () {
         return Inertia::render('Product/CreateProduct');

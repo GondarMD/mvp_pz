@@ -21,11 +21,14 @@ export type Category = {
     id: number,
     name: string,
     slug: string,
+    subcategories: Array<SubCategory>,
+    description: string,
 }
 
 export type SubCategory = {
     id: number,
     name: string,
+    description: string,
     category_id: number,
 }
 
