@@ -235,6 +235,7 @@ function selectAllSubcategories(category: Category) {
                             <FormToolbar
                                 :toolbarItems="CategoryToolbarItems"
                                 :targetObject="category"
+                                :display=true
                             />
                         </div>
                     </td>
@@ -311,7 +312,7 @@ function selectAllSubcategories(category: Category) {
                                             SubcategoryEditToolbarItems
                                         "
                                         :targetObject="subcategory"
-                                        :display="subcategory.is_selected"
+                                        :display="subcategory.is_selected === true"
                                     />
                                 </li>
                             </ul>
