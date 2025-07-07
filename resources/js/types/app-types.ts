@@ -30,6 +30,7 @@ export type SubCategory = {
     name: string,
     description: string,
     category_id: number,
+    is_selected: boolean,
 }
 
 export type ProductVariant = {
@@ -75,4 +76,15 @@ export type ProductCustomization = {
     is_active: boolean,
     options: Array<string>,
     validation_rules: string,
+}
+
+// UI types
+export type ToolbarType = {
+    action: (parameter: any) => void,
+    label: string,
+    enabled: boolean,
+    icon?: Object,
+    class: string,
+    displayOnMultipleSelect?: boolean,
+    color: string,
 }

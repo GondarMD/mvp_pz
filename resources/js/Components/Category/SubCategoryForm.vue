@@ -1,11 +1,11 @@
-<!-- 
+<!--
     This component is used to display a form for creating or editing a subcategory in the admin panel.
 //     It uses the useForm hook from Inertia.js to handle form submission and validation.
 -->
 
 <script setup
         lang="ts">
-            import { ref, watch, PropType } from 'vue';
+            import { ref, watch, PropType, onMounted } from 'vue';
             import { useForm } from '@inertiajs/vue3';
             import { SubCategory, Category } from '@/types/app-types.js';
             import Modal from '@/Components/Modal.vue';
@@ -23,10 +23,22 @@
 
             const emit = defineEmits( [ 'close', 'save' ] );
 
+            // Focus the subcategory name input when the component is mounted or shown
+            onMounted( () => {
+                if ( props.show && props.subCategory ) {
+                    const subcategoryNameInput = document.querySelector( '#subcategoryName' ) as HTMLInputElement;
+                    if ( subcategoryNameInput ) {
+                        subcategoryNameInput.focus();
+                    }
+                }
+            } );
+
             const form = useForm( {
                 name: props.subCategory ? props.subCategory.name : '',
                 category_id: props.subCategory ? props.subCategory.category_id : 0,
             } );
+
+            const subcategoryName = ref( null );
 
             const submit = () => {
                 if ( props.subCategory.id != 0 ) {
@@ -70,7 +82,7 @@
             <form @submit.prevent=" submit ">
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input v-model=" form.name " type="text" id="name"
+                    <input v-model=" form.name " type="text" id="name" ref="subcategoryName" autofocus
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         required>
                 </div>
