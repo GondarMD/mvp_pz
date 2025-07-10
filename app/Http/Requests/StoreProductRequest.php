@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class StoreProductRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->can('create', \App\Models\Product::class);
+        return Auth::user()?->can('create', \App\Models\Product::class);
     }
 
     /**
@@ -35,5 +37,9 @@ class StoreProductRequest extends FormRequest
             'product_3d_model_url' => 'nullable|url',
             'product_3d_model_thumbnail_url' => 'nullable|url',
         ];
+    }
+
+    public function wantsJson() {
+        return request()->wantsJson();
     }
 }

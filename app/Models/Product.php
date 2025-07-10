@@ -39,7 +39,7 @@ class Product extends Model
     /**
      * Get the sub-category that owns the product.
      */
-    public function subCategory(): BelongsTo
+    public function subcategory(): BelongsTo
     {
         return $this->belongsTo(SubCategory::class);
     }
@@ -175,5 +175,5 @@ class Product extends Model
     {
         return $this->product_3d_model_thumbnail_url; // Return the product 3D model thumbnail URL
     }
-    
+
 }
