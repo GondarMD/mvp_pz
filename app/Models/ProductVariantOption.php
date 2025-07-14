@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Enums\OptionAttributes;
 use App\Models\ProductVariantOptionValue;
 
 class ProductVariantOption extends Model
@@ -12,6 +13,10 @@ class ProductVariantOption extends Model
         'product_variant_id',
         'attribute', // e.g., 'size', 'color'
         'label', // e.g., 'Size', 'Color' - used in UI for display
+    ];
+
+    public $casts = [
+        'attribute' => OptionAttributes::class
     ];
 
     public function productVariant()
@@ -23,4 +28,5 @@ class ProductVariantOption extends Model
     {
         return $this->hasMany(ProductVariantOptionValue::class);
     }
+
 }

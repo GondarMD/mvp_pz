@@ -17,6 +17,24 @@ export type Product = {
     updated_at: string,
 }
 
+export type  PaginatedProductPage = {
+    data: Array<Product>,
+    links: {
+        first: string,
+        last: string,
+        prev: string,
+        next: string,
+    },
+    meta: {
+        current_page: number,
+        from: number,
+        last_page: number,
+        per_page: number,
+        to: number,
+        total: number,
+    }
+}
+
 export type Category = {
     id: number,
     name: string,
@@ -61,6 +79,11 @@ export type ProductVariantOption = {
     product_variant_id: number,
     attribute_key: string,
     attribute_value: string,
+}
+
+export type LabelValue = {
+    label: string,
+    value: string
 }
 
 export type ProductCustomization = {

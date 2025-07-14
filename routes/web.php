@@ -59,6 +59,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Products
     Route::get('/admin/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('admin.products.index');
     Route::post("/admin/products", [App\Http\Controllers\Admin\ProductController::class, 'store'])->name('admin.products.store');
+
+    Route::get('/admin/products/create', [App\Http\Controllers\Admin\ProductController::class, 'create'])->name('admin.products.create');
 });
 
 // Route::middleware(['auth', 'role:authenticated'])->group(function () {

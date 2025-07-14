@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Model;
+
+use App\Enums\OptionAttributes;
 
 class ProductVariant extends Model
 {
@@ -27,10 +30,13 @@ class ProductVariant extends Model
         'customization_schema',
     ];
 
-    protected $casts = [
+    public function casts() {
+        // reference: https://codecourse.com/articles/enums-in-laravel-everything-you-need-to-know
+        return [
         'variant_image_urls' => 'array',
-        'variant_attributes' => 'array',
+            'variant_attributes' => AsEnumCollection::of(OptionAttributes::class),
     ];
+    }
 
     public function product()
     {
@@ -41,5 +47,5 @@ class ProductVariant extends Model
     {
         return $this->hasMany(ProductVariantOption::class);
     }
-    
+
 }

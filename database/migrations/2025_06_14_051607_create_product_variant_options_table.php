@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product_variant_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
-            $table->string('attribute'); // e.g., 'size', 'color'
+            $table->enum('attribute', \App\Enums\OptionAttributes::cases()); // e.g., 'size', 'color'
             $table->string('label'); // e.g., 'Size', 'Color' - used in UI for display
             $table->timestamps();
         });

@@ -2,10 +2,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import {useForm, usePage} from '@inertiajs/vue3';
-import {Category, Product, ProductVariant, ProductCustomization} from '@/types/app-types';
+import {Category, Product, ProductVariant, ProductCustomization, LabelValue} from '@/types/app-types';
 
-import ProductVariants from './Variants/ProductVariantsForm.vue'
-import ProductCustomizations from './Customizations/ProductCustomizationsForm.vue'
+import ProductVariantsForm from './Variants/ProductVariantsForm.vue';
+import ProductCustomizationsForm from './Customizations/ProductCustomizationsForm.vue';
 
 const page = usePage();
 const form = useForm({
@@ -14,6 +14,7 @@ const form = useForm({
     customizations: [] as ProductCustomization[]
 });
 const categories = ref([]) // Populate from API or props
+const attributeOptions = page.props.option_attributes as LabelValue[];
 
 function saveProduct(data: any) {
   console.log('Save product', data)
@@ -64,15 +65,15 @@ const form_subcategory_objects = computed(() => {
     >
       <FormKit v-model="form._product.name" name="name" label="Product Name" type="text" validation="required" />
       <FormKit v-model="form._product.description" name="description" label="Description" type="textarea" />
-      <div class="flex justify-between">
+      <div class="flex jgap-4">
       <FormKit input-class="w-20" v-model="base_price" name="p=rice" label="Base Price ($)" type="number" step="0.01" validation="required" />
       <FormKit  input-class="w-96" v-model="form._product.category_id" name="category_id" label="Category" type="select" :options="form_category_objects"  />
       <FormKit input-class="w-80" v-model="form._product.sub_category_id" name="sub_category_id" label="Sub Category" type="select" :options="form_subcategory_objects" :enabled="form._product.category_id"/>
       </div>
 
-      <ProductVariants v-model="form.variants" />
-      <ProductCustomizations v-model="form.customizations" />
-    </FormKit>
+      <ProductVariantsForm v-model="form.variants" :option-attributes="attributeOptions"/>
+      <ProductCustomizationsForm v-model="form.customizations" />
+      </FormKit>
   </div>
 </template>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,10 +19,18 @@ class ProductController extends Controller
     {
         $products = Product::with('category')->get();
         if ($request->wantsJson()) {
-            return $products;
+            return [
+                'products' => $products,
+                'categories' => Category::all(),
+                'optionAttributes' => \App\Enums\OptionAttributes::cases()
+            ];
         }
+
         return Inertia::render('Product/ProductListView', [
-            'products' => $products
+            'products' => $products,
+            'categories' => Category::all(),
+            'optionAttributes' => \App\Enums\OptionAttributes::cases()
+
         ]);
     }
 

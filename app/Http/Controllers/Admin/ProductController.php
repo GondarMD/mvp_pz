@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\OptionAttributes;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,15 +14,31 @@ use App\Http\Requests\StoreProductRequest;
 class ProductController extends Controller
 {
     public function index(Request $request) {
-        $products = Product::with('category')->get();
+        $products = Product::with('category', 'variants' )->paginate();
         $categories = Category::all()->load('subcategories');
+        $optionAttributes = OptionAttributes::options();
 
         if ($request->wantsJson()) {
-            return ['products' => '$products', 'categories' => '$categories'];
+            return [
+                'products' => '$products',
+                'categories' => '$categories',
+                'option_attributes' => $optionAttributes,
+            ];
         }
         return Inertia::render('Admin/ProductManagement', [
             'products' => $products,
-            'categories' => $categories
+            'categories' => $categories,
+            'option_attributes' => $optionAttributes
+        ]);
+    }
+
+    public function create(Request $request) {
+        $categories = Category::all()->load('subcategories');
+        $optionAttributes = OptionAttributes::options();
+
+        return Inertia::render('Admin/Products/Create', [
+            'categories' => $categories,
+            'option_attributes' => $optionAttributes
         ]);
     }
 
