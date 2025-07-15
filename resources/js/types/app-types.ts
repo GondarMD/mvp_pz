@@ -69,7 +69,7 @@ export type ProductVariant = {
     is_active: boolean,
     is_digital: boolean,
     is_default: boolean,
-    variant_attributes: Array<number>,
+    variant_attributes: Array<ProductVariantOption>,
     created_at: string,
     updated_at: string,
 }

@@ -53,6 +53,10 @@ const form_subcategory_objects = computed(() => {
 
     return options;
 })
+
+function handleAddVariant (variant: ProductVariant) {
+    form.variants.push(variant);
+}
 </script>
 
 <template>
@@ -65,13 +69,13 @@ const form_subcategory_objects = computed(() => {
     >
       <FormKit v-model="form._product.name" name="name" label="Product Name" type="text" validation="required" />
       <FormKit v-model="form._product.description" name="description" label="Description" type="textarea" />
-      <div class="flex jgap-4">
+      <div class="flex gap-4">
       <FormKit input-class="w-20" v-model="base_price" name="p=rice" label="Base Price ($)" type="number" step="0.01" validation="required" />
       <FormKit  input-class="w-96" v-model="form._product.category_id" name="category_id" label="Category" type="select" :options="form_category_objects"  />
       <FormKit input-class="w-80" v-model="form._product.sub_category_id" name="sub_category_id" label="Sub Category" type="select" :options="form_subcategory_objects" :enabled="form._product.category_id"/>
       </div>
 
-      <ProductVariantsForm v-model="form.variants" :option-attributes="attributeOptions"/>
+      <ProductVariantsForm v-model="form.variants" :option-attributes="attributeOptions" @update:model-value="handleAddVariant"/>
       <ProductCustomizationsForm v-model="form.customizations" />
       </FormKit>
   </div>

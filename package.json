@@ -31,6 +31,7 @@
         "vue-tsc": "^2.0.24"
     },
     "dependencies": {
+        "@formkit/pro": "^0.127.23",
         "@formkit/tailwindcss": "^1.6.9",
         "@formkit/themes": "^1.6.9",
         "@formkit/vue": "^1.6.9",
