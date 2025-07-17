@@ -1,20 +1,31 @@
 <script setup lang="ts">
-import { LabelValue, ProductVariant } from '@/types/app-types';
+import { LabelValue, ProductVariant, Product } from '@/types/app-types';
 import { useForm, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import ProductVariantOptionForm from "./ProductVariantOptionForm.vue";
 
 const props = defineProps<{
-    modelValue: Array<ProductVariant>;
+    product: Product;
+    current_variants: Array<ProductVariant>;
     optionAttributes: Array<LabelValue>;
 }>();
 
-const emit = defineEmits(['update:modelValue', 'addAttribute']);
+const emit = defineEmits(['saveVariant', 'removeVariant']);
+
 
 const page = usePage();
 const form = useForm({
     _variant: {} as ProductVariant,
 });
+
+
+onMounted(() => {
+    form._variant.product_id = props.product.id;
+    form._variant.name = 'New Variant';
+    form._variant.variant_price = props.product.price;
+    form._variant.variant_attributes = [];
+});
+
 const selectedSizeOption = ref('');
 const definedAttributes = [] as string[];
 const definedValues = [] as string[];
@@ -43,12 +54,9 @@ const designOptions = [
     {label: 'Rectangular Landscape', value: 'rect-landscape'},
 ];
 
-function handleAddVariant(variant: ProductVariant) {
-    emit('update:modelValue', [...props.modelValue, variant]);
-}
 
 function addVariant() {
-    emit('update:modelValue', [...props.modelValue, form._variant]);
+    emit('saveVariant', form._variant);
 }
 
 function removeVariant(index: number) {
@@ -69,8 +77,11 @@ function addVariantAttribute(key: string, value: string) {
     emit('update:modelValue', form._variant);
 }
 
-function handleAttributeValueCaptured(value: string) {
-    console.log('Captured value = ', value);
+function handleAttributeValueCaptured(captured: LabelValue) {
+    attribute_key.value = captured.label;
+    attribute_value.value = captured.value;
+
+    addVariantAttribute(attribute_key.value, attribute_value.value);
 }
 
 function handleAttributeSelection(event: any) {

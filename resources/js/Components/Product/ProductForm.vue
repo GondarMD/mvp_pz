@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import {useForm, usePage} from '@inertiajs/vue3';
 import {Category, Product, ProductVariant, ProductCustomization, LabelValue} from '@/types/app-types';
 
@@ -13,8 +13,27 @@ const form = useForm({
     variants: [] as ProductVariant[],
     customizations: [] as ProductCustomization[]
 });
+
+
 const categories = ref([]) // Populate from API or props
 const attributeOptions = page.props.option_attributes as LabelValue[];
+
+const base_image_file = ref(<File|undefined> (undefined));
+const thumbnail_image_file = ref(<File|null> (null));
+const product_video_file = ref(<File|null> (null));
+const product_pdf_file = ref(<File|null> (null));
+const product_3d_image_file = ref(<File|null> (null));
+const product_3d_image_thumbnail_file = ref(<File|null> (null));
+
+onMounted(() => {
+    base_image_file.value = new File([], form._product.base_image_url);
+    thumbnail_image_file.value = new File([], form._product.thumbnail_image_url);
+    product_video_file.value = new File([], form._product.product_video_url);
+    product_pdf_file.value = new File([], form._product.product_pdf_url);
+    product_3d_image_file.value = new File([], form._product.product_3d_model_url);
+    product_3d_image_thumbnail_file.value = new File([], form._product.product_3d_model_thumbnail_url);
+});
+
 
 function saveProduct(data: any) {
   console.log('Save product', data)
@@ -54,7 +73,7 @@ const form_subcategory_objects = computed(() => {
     return options;
 })
 
-function handleAddVariant (variant: ProductVariant) {
+function handleSaveVariantProperties (variant: ProductVariant) {
     form.variants.push(variant);
 }
 </script>
@@ -73,9 +92,11 @@ function handleAddVariant (variant: ProductVariant) {
       <FormKit input-class="w-20" v-model="base_price" name="p=rice" label="Base Price ($)" type="number" step="0.01" validation="required" />
       <FormKit  input-class="w-96" v-model="form._product.category_id" name="category_id" label="Category" type="select" :options="form_category_objects"  />
       <FormKit input-class="w-80" v-model="form._product.sub_category_id" name="sub_category_id" label="Sub Category" type="select" :options="form_subcategory_objects" :enabled="form._product.category_id"/>
+      <FormKit :v-model="base_image_file" name="base_image" label="Base Product Image" type="file" accept=".jpg,.jpeg,.png" />
+
       </div>
 
-      <ProductVariantsForm v-model="form.variants" :option-attributes="attributeOptions" @update:model-value="handleAddVariant"/>
+      <ProductVariantsForm :product="form._product" :current_variants="form.variants" :option-attributes="attributeOptions" @saveVariant="handleSaveVariantProperties"/>
       <ProductCustomizationsForm v-model="form.customizations" />
       </FormKit>
   </div>

@@ -12,18 +12,17 @@ function valueEntered() {
     emit('valueEntered', props.customValue);
 }
 
-function handleOptionSelected(event: any) {
-    const target = event.target.value as string;
-    emit('valueEntered', target);
+function handleOptionSelected(item: string) {
+    emit('valueEntered', { label: props.selectedAttribute, value: item });
 }
 </script>
 
 <template>
     <div
         v-if="props.attributeOptionValues"
-        class="flex flex-col gap-4 border-2 border-sky-100 p-4 "
+        class="flex flex-col gap-4 border-2 border-sky-100 p-4"
     >
-        <span class="font-bold text-sm/6"> Attribute Options</span>
+        <span class="text-sm/6 font-bold"> Attribute Options</span>
 
         <ul>
             <li
@@ -32,7 +31,7 @@ function handleOptionSelected(event: any) {
             >
                 <p
                     class="cursor-pointer text-gray-500 hover:bg-black hover:text-white"
-                    @click="handleOptionSelected"
+                    @click="handleOptionSelected(option.value)"
                     :value="option.value"
                 >
                     {{ option.label }}
@@ -41,7 +40,7 @@ function handleOptionSelected(event: any) {
         </ul>
     </div>
     <div class="flex flex-col gap-4 border-2 border-sky-100 p-4" v-else>
-        <span class="font-bold text-sm/6">Attribute Value</span>
+        <span class="text-sm/6 font-bold">Attribute Value</span>
         <FormKit
             type="text"
             v-model="props.customValue"
