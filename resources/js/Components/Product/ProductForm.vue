@@ -6,6 +6,7 @@ import {Category, Product, ProductVariant, ProductCustomization, LabelValue} fro
 
 import ProductVariantsForm from './Variants/ProductVariantsForm.vue';
 import ProductCustomizationsForm from './Customizations/ProductCustomizationsForm.vue';
+import SingleFileUploader from "@/Components/SingleFileUploader.vue";
 
 const page = usePage();
 const form = useForm({
@@ -18,7 +19,7 @@ const form = useForm({
 const categories = ref([]) // Populate from API or props
 const attributeOptions = page.props.option_attributes as LabelValue[];
 
-const base_image_file = ref(<File|undefined> (undefined));
+const base_image_file = ref(<string|undefined> (undefined));
 const thumbnail_image_file = ref(<File|null> (null));
 const product_video_file = ref(<File|null> (null));
 const product_pdf_file = ref(<File|null> (null));
@@ -26,21 +27,33 @@ const product_3d_image_file = ref(<File|null> (null));
 const product_3d_image_thumbnail_file = ref(<File|null> (null));
 
 onMounted(() => {
-    base_image_file.value = new File([], form._product.base_image_url);
-    thumbnail_image_file.value = new File([], form._product.thumbnail_image_url);
-    product_video_file.value = new File([], form._product.product_video_url);
-    product_pdf_file.value = new File([], form._product.product_pdf_url);
-    product_3d_image_file.value = new File([], form._product.product_3d_model_url);
-    product_3d_image_thumbnail_file.value = new File([], form._product.product_3d_model_thumbnail_url);
+    // base_image_file.value = new File([], form._product.base_image_url);
+    // thumbnail_image_file.value = new File([], form._product.thumbnail_image_url);
+    // product_video_file.value = new File([], form._product.product_video_url);
+    // product_pdf_file.value = new File([], form._product.product_pdf_url);
+    // product_3d_image_file.value = new File([], form._product.product_3d_model_url);
+    // product_3d_image_thumbnail_file.value = new File([], form._product.product_3d_model_thumbnail_url);
 });
 
 
 function saveProduct(data: any) {
-  console.log('Save product', data)
+  console.log('Save product', data);
+
+  form.post("/admin/products", {
+    preserveState: true,
+    onSuccess: () => {
+        console.log('product creation success.');
+    },
+    onError: ()=> {
+        console.log('product creation failed');
+    }
+  })
+
   // Submit logic here
 }
 
 const base_price = computed(() => (form._product.price as Number || 0).toFixed(2));
+
 
 const form_category_objects = computed(() => {
     const options = [] as { value: number, label: string }[];
@@ -54,6 +67,13 @@ const form_category_objects = computed(() => {
     return options;
 });
 
+/**
+ * Computes an array of subcategory option objects for the selected product category.
+ * Each option object contains a `value` (subcategory ID) and a `label` (subcategory name).
+ * Returns an empty array if no category is selected.
+ *
+ * @returns {Array<{ value: number, label: string }>} Array of subcategory options for the selected category.
+ */
 const form_subcategory_objects = computed(() => {
     if (!form._product.category_id) {
         return [];
@@ -92,8 +112,9 @@ function handleSaveVariantProperties (variant: ProductVariant) {
       <FormKit input-class="w-20" v-model="base_price" name="p=rice" label="Base Price ($)" type="number" step="0.01" validation="required" />
       <FormKit  input-class="w-96" v-model="form._product.category_id" name="category_id" label="Category" type="select" :options="form_category_objects"  />
       <FormKit input-class="w-80" v-model="form._product.sub_category_id" name="sub_category_id" label="Sub Category" type="select" :options="form_subcategory_objects" :enabled="form._product.category_id"/>
-      <FormKit :v-model="base_image_file" name="base_image" label="Base Product Image" type="file" accept=".jpg,.jpeg,.png" />
 
+      <SingleFileUploader v-model="base_image_file" @update:model-value=""/>
+      
       </div>
 
       <ProductVariantsForm :product="form._product" :current_variants="form.variants" :option-attributes="attributeOptions" @saveVariant="handleSaveVariantProperties"/>

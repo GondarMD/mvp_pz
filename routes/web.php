@@ -15,6 +15,8 @@ Route::get('/', function () {
     ]);
 });
 
+Route::post('/files', [App\Http\Controllers\FileUploadController::class, 'upload'])
+    ->name('files.upload');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
