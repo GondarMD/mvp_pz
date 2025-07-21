@@ -22,7 +22,7 @@ class FileUploadController extends Controller
         ]);
 
         // Store the file
-        $path = $request->file('file')->store('uploads');
+        $path = $request->file('file')->store('', 'uploads');
 
         // Return a response
         return back()->with([

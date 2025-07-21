@@ -27,7 +27,7 @@ const handleFileSelect = async (value: unknown, node: any) => {
   }
 
   if (!files || files.length === 0) return;
-  const file = files[0];
+  const file = files[0];  
 
   const form = useForm({
     file,
@@ -37,8 +37,9 @@ const handleFileSelect = async (value: unknown, node: any) => {
 
   form.post('/files', {
     preserveScroll: true,
-    onSuccess: () => {
-      const uploadedUrl = `/storage/uploads/${file.name}`; // Adjust if your Laravel controller returns something different
+    onSuccess: (data) => {
+
+      const uploadedUrl = `/storage/app/public/uploads/${file.name}`; // Adjust if your Laravel controller returns something different
 
       fileUrl.value = uploadedUrl;
       fileName.value = file.name;

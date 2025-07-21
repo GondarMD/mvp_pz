@@ -9,6 +9,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/.vite
 .env
 .env.backup
 .env.production
