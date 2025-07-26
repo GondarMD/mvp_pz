@@ -24,11 +24,23 @@ class FileUploadController extends Controller
         // Store the file
         $path = $request->file('file')->store('', 'uploads');
 
+        $url = 'uploads/' . $path;
+        $flash_message = asset($url);
+
+        // Flash data to the session
+        $request->session()->flash('flash_message', $flash_message);
+        $request->session()->flash('file_uploaded', true);
+        $request->session()->flash('file_upload', Storage::url($path));
+        $request->session()->flash('file_name', basename($path));
+        
+
         // Return a response
-        return back()->with([
-            'file_uploaded' => true,
-            'file_path' => Storage::url($path),
-            'file_name' => basename($path),
+        return back()->with([       
+            'status' => 'success',
+            'data' => [
+                'file_name' => basename($path),
+                'file_path' => Storage::url($path),
+            ]   
         ]);
     }
 }

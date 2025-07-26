@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 
 const props = defineProps<{
   modelValue?: string | null
 }>()
 
-const emit = defineEmits(['update:modelValue', 'uploaded'])
+const emit = defineEmits(['update:modelValue', 'uploaded']);
+const page = usePage();
 
-const fileUrl = ref<string | null | undefined>(props.modelValue || null)
-const fileName = ref<string | null>(null)
-const uploading = ref(false)
+const fileUrl = ref<string | null | undefined>(props.modelValue || null);
+const fileName = ref<string | null>(null);
+const uploading = ref(false);
 
 watch(() => props.modelValue, (newVal) => {
   fileUrl.value = newVal
-})
+});
 
 const handleFileSelect = async (value: unknown, node: any) => {
   // value; {name: '', file: File}
@@ -39,7 +40,7 @@ const handleFileSelect = async (value: unknown, node: any) => {
     preserveScroll: true,
     onSuccess: (data) => {
 
-      const uploadedUrl = `/storage/app/public/uploads/${file.name}`; // Adjust if your Laravel controller returns something different
+      const uploadedUrl = page.props.flash.message;
 
       fileUrl.value = uploadedUrl;
       fileName.value = file.name;
